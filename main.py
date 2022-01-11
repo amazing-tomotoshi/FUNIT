@@ -8,7 +8,7 @@ from PIL import Image
 model = get_model("resnet50_2020-07-20", max_size=2048)
 model.eval()
 
-path = 'images/me3.jpg'
+path = 'images/input.jpg'
 image = cv2.imread(path)
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -34,13 +34,13 @@ def set_bboxes(image,results,bboxes,height, width):
             left = 0
         right = int(bbox[2] + (bbox[2] - bbox[0]) * 0.5)
         if right > width :
-            right = 0
+            right = width
         top = int(bbox[1] - (bbox[3] - bbox[1]) * 0.3)
         if top < 0 :
             top = 0
         bottom = int(bbox[3] + (bbox[3] - bbox[1]) * 0.3)
         if bottom > height :
-            bottom = 0
+            bottom = height
         bboxes.append([left, top, right, bottom])
     return image
 
@@ -53,10 +53,16 @@ for i,bbox in enumerate(bboxes):
     command = "python3 test_k_shot.py --config configs/funit_animals.yaml --ckpt pretrained/animal149_gen.pt --input {} --class_image_folder {} --output images/output-{}.jpg".format(face_path, 'images/n02086646', i)
     subprocess.run(command, shell=True)
 
-# for i,bbox in enumerate(bboxes):
-#     image_path = "images/face/face-{}.jpg".format(i)
-#     image1 = Image.open(path)
-#     image2 = Image.open('data/src/lena.jpg')
+image1 = Image.open(path)
+back_image = image1.copy()
+
+for i,bbox in enumerate(bboxes):
+    face_path = "images/output-{}.jpg".format(i)
+    image2 = Image.open(face_path)
+    image2_resize = image2.resize((bbox[2]-bbox[0], bbox[3]-bbox[1]))
+    back_image.paste(image2_resize, (bbox[0], bbox[1]))
+
+back_image.save('images/output.jpg', quality=95)
 
 
 
