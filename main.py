@@ -8,7 +8,7 @@ from PIL import Image
 model = get_model("resnet50_2020-07-20", max_size=2048)
 model.eval()
 
-path = 'images/input.jpg'
+path = 'images/ikemen.jpg'
 image = cv2.imread(path)
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -64,6 +64,7 @@ for i,bbox in enumerate(bboxes):
 
 back_image.save('images/output.jpg', quality=95)
 
-cv2.imshow('output', back_image)
+output_image = cv2.imread(r'images/output.jpg')
+cv2.imshow('output', output_image)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
