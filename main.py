@@ -64,8 +64,6 @@ for i,bbox in enumerate(bboxes):
 
 back_image.save('images/output.jpg', quality=95)
 
-
-
-
-
-image_out = draw_res(image,results)
+cv2.imshow('output', back_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
