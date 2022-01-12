@@ -8,7 +8,7 @@ from PIL import Image
 model = get_model("resnet50_2020-07-20", max_size=2048)
 model.eval()
 
-path = 'images/ikemen.jpg'
+path = 'images/input.jpg'
 image = cv2.imread(path)
 image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
