@@ -63,8 +63,3 @@ for i,bbox in enumerate(bboxes):
     back_image.paste(image2_resize, (bbox[0], bbox[1]))
 
 back_image.save('images/output.jpg', quality=95)
-
-output_image = cv2.imread(r'images/output.jpg')
-cv2.imshow('output', output_image)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
